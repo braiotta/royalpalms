@@ -1,0 +1,158 @@
+# lines that start with ! mark a new variable.
+#
+# lines that start with # are comments.
+#
+# the party reservation form will read the file called "config.txt".
+#
+# the safest way to make changes is to copy this file, run the config checker on
+# it, fix any errors, and only THEN overwrite the master config file (config.txt).
+#
+# dates can be expressed in a lot of different formats. to be safe, use something
+# like "sep 20 2014".
+#
+# tabs/extra spaces/extra newlines are all ok.
+#
+# when naming test config files, try to stay away from goofy characters that
+# appear in URLs like quotes, pluses, equals, ampersands, and spaces.
+#
+# Chris Braiotta
+# July, 2014
+
+!how many people is a big party
+	35
+	
+!how many people is too many
+	51
+	
+!message for too many people
+# use the code "__var__" to have the message plug in whatever number you set above
+	For event requests over __var__ guests<br />please contact <a href="mailto:manager@royalpalmsshuffle.com">manager@royalpalmsshuffle.com</a>.
+
+!how many days in advance can you book
+	60
+
+#
+# you specify what times are available in the "party slots and lengths" section; here, you
+# say which nights are league nights, so the user gets a league-specific error when they
+# try to select that day instead of the behavior for a night that's x'd off for other
+# reasons. this variable *only* gets used for error messages. putting a day here will
+# *not* caused it to be blocked off from reservations.
+#
+
+!league nights
+# comma separated list, like: "mon,tue,wed"
+	mon
+	
+!league night message
+	Sorry! That's a league night. You can't reserve a party on league nights.
+	
+!standard unavailable message
+	Sorry! We can't take any parties on that night.
+
+
+#
+# party slots and lengths
+# should be a list of days, with each day marking a time of day, and the lengths
+# available for that day. if a day doesn't appear or doesn't have time slots, no
+# times will be offered.
+#
+# days can be individual weekdays (eg "mon"), individual dates (eg "jul 21 2014"), or a
+# comma separated list of both/either (eg "tue,wed,thu,jul 21 2014, jul 28 2014").
+#
+
+!regular party
+	sun
+		12:00p-9:30p 2h
+	tue,wed,thu
+		6:00p-9:30p 2h
+	fri
+		6:00p-11:30p 2h
+	sat
+		12:00p-11:30p 2h
+
+		
+!premium party
+	sun
+		12:00p-9:00p 2h,3h
+		9:30p 2h		
+	tue,wed,thu
+		6:00p-9:00p 2h,3h
+		9:30p 2h
+	fri
+		6:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+	sat
+		12:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+
+!big party
+	sun
+		12:00p-9:00p 2h,3h
+		9:30p 2h		
+	tue,wed,thu
+		6:00p-9:00p 2h,3h
+		9:30p 2h
+	fri
+		6:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+	sat
+		12:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+		
+!big premium party	
+	sun
+		12:00p-9:00p 2h,3h
+		9:30p 2h		
+	tue,wed,thu
+		6:00p-9:00p 2h,3h
+		9:30p 2h
+	fri
+		6:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+	sat
+		12:00p-10:30p 2h,3h
+		11:00p-11:30p 2h
+
+
+#
+# popup msg once reservation comes in, plus email that goes to user.
+#
+
+!confirmation popup
+	Thank you for your request. Our events department will contact you within 48 hours. All parties are subject to availability. If your date/time can be accommodated, our events department will send you back a contract. Please note that a 50% non-refundable deposit and signed contract are required to confirm and hold a date.
+
+!send confirmation email
+# defaults to yes; must be set to "no" to suppress sending
+	yes
+
+!confirmation email subject
+	Your Royal Palms party reservation request has been received.
+
+!confirmation email from address
+	party@royalpalmsshuffle.com
+
+#
+# email can be html or plain. if html, wrap in <html></html>.
+#
+!confirmation email body
+<html>
+<b>Hey there</b>, shufflebuddy! We'll be floating you an e-biscuit in a few rooty-toot days!!!
+</html>
+
+
+
+#
+# blacklist
+# dates that should not be allowed, even if populated in time slots above. leave blank if
+# not wanted, but leave the variable there.
+#
+# there is no whitelist; specific dates are simply added along with weekday in the time
+# slot settings above.
+#
+
+!blacklist dates
+#
+# Just dates.
+#
+#	jul 20 2014
+#	jul 21 2014
