@@ -61,7 +61,7 @@ function ajax_getConfigs() {
 	print json_encode($real_files);
 }
 
-function ajax_loadPartyConfig($path) {
+function ajax_loadPartyConfig($path, $silent = false) {
 	global $CONF_PATH;
 	if (!$path) {
 		$path = $CONF_PATH;
@@ -77,7 +77,13 @@ function ajax_loadPartyConfig($path) {
 	unset($config['confirmation_email_subj']);
 	unset($config['confirmation_email_send']);
 	
-	print json_encode($config);
+	if ($silent) {
+		return $config;
+	}
+	
+	else {
+		print json_encode($config);
+	}
 }
 
 function ajax_loadPartyConfig__fromFile($path) {
@@ -100,9 +106,15 @@ function ajax_submitReservation($json) {
 		$msg .= '* ' . join("_NEWLINE_* ", $errors);
 		handleError($msg);
 	}
+	
+	//do a final check that the date is available, in case javascript barfed
+	if (!checkAvailability($form)) {
+		exit;
+	}
 
 	$subject = ajax_submitReservation_deriveSubject($form, $form['date']);
 	
+	logReservation($form);
 	sendReservation($form, $TO_ADDR, $subject);
 	
 	global $CONF_PATH;
@@ -113,12 +125,14 @@ function ajax_submitReservation($json) {
 	}
 }
 
-
 function ajax_submitReservation_deriveSubject($form, $date) {
 	global $SUBJ;
 	$subject = $SUBJ;
 	
-	if (preg_match('/_premium$/', $form['beverage_package'])) {
+	if (
+		preg_match('/_premium$/', $form['beverage_package'])
+		|| preg_match('/_house\-kegged_cocktails$/', $form['beverage_package'])
+	) {
 		$subject .= ' - PREMIUM';
 	}
 	
@@ -183,6 +197,56 @@ function buildTimeRange($start, $end, $inc) {
 	}
 	
 	return $times;
+}
+
+function checkAvailability($form) {
+	$conf = ajax_loadPartyConfig(false, true);
+	
+	//first, is it blacklisted?
+	$ok = checkAvailability_blacklisted($form, $conf);
+	
+	//if it's not blacklisted, is that night blocked off as a league night?
+	if ($ok) {
+		$ok = checkAvailability_league($form, $conf);
+	}
+	
+	return $ok;
+}
+
+function checkAvailability_blacklisted($form, $conf) {
+	$ok = true;
+	
+	$req_date = strtotime($form['date']);
+	
+	if ($conf['blacklist']) {
+		foreach ($conf['blacklist'] as $b_date) {
+			$b_date = strtotime($b_date);
+			if ($b_date == $req_date) {
+				$ok = false;
+				print 'ERROR::' . $conf['std_msg'][0];
+			}
+		}
+	}
+	
+	return $ok;
+}
+
+function checkAvailability_league($form, $conf) {
+	$ok = true;
+	
+	if ($conf['league']) {
+		$req_wday = strtolower(date( "D", strtotime($form['date'])));
+		foreach ($conf['league'] as $league_wday) {
+			$league_wday = strtolower(substr($league_wday, 0, 3));
+		
+			if ($league_wday == $req_wday) {
+				$ok = false;
+				print 'ERROR::' . $conf['league_msg'][0];
+			}
+		}	
+	}
+		
+	return $ok;
 }
 
 function expandDateObjects($dates) {
@@ -312,6 +376,35 @@ function handleError($msg, $line_str = false) {
 	}
 	
 	$ERRORS[] = $msg;
+}
+
+function logReservation($form) {
+	$msg[] = 'name: ' . $form['name'];
+	$msg[] = 'guests: ' . $form['guests'];
+	$msg[] = 'beverage package: ' . preg_replace("/_/", ' ', $form['beverage_package']);
+	unset($form['name']);
+	unset($form['guests']);
+	unset($form['beverage_package']);
+	
+
+	foreach ($form as $k=>$v) {
+		$k = preg_replace("/_/", ' ', $k);
+		$msg[] = $k . ": " . $v;
+	}
+	
+	$msg[] = '';
+	$msg[] = 'browser: ' . $_SERVER['HTTP_USER_AGENT'];
+
+	$log_loc = '../../eventlog/eventlog.txt';
+	if (file_exists($log_loc) && is_writable($log_loc)) {
+		file_put_contents(
+			$log_loc,
+				date('r') . "\n\n"
+				. join("\n", $msg)
+				. "\n\n============\n\n",
+			FILE_APPEND
+		);
+	}
 }
 
 function makeJSUnsafe($str) {

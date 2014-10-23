@@ -23,7 +23,14 @@ body
 	form
 	.party_container
 {
-margin-left: 0px;
+	margin-left: 0px;
+}
+
+body
+	form
+	.referral_container
+{
+	margin-top: 20px;
 }
 
 body

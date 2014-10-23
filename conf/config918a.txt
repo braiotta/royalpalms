@@ -29,7 +29,7 @@
 	For event requests over __var__ guests<br />please contact <a href="mailto:manager@royalpalmsshuffle.com">manager@royalpalmsshuffle.com</a>.
 
 !how many days in advance can you book
-	90
+	60
 
 #
 # you specify what times are available in the "party slots and lengths" section; here, you
@@ -41,7 +41,7 @@
 
 !league nights
 # comma separated list, like: "mon,tue,wed"
-
+	mon, tue
 	
 !league night message
 	Sorry! That's a league night. You can't reserve a party on league nights.
@@ -62,68 +62,90 @@
 
 !regular party
 	sun
-		12:00p-9:00p 2h
-	mon, tue, wed
+		12:00p-9:30p 2h
+	wed,thu
 		6:00p-9:30p 2h
-	thu, fri
+	fri
 		6:00p-11:30p 2h
 	sat
 		12:00p-11:30p 2h
-
-
-#	dec 30 2014
-#		6:00p-9:30p 2h
 		
-		
+	nov 17 2014
+		6:00p-9:30p 2h
+
+	nov 18 2014
+		6:00p-9:30p 2h
+
 		
 !premium party
 	sun
 		12:00p-9:00p 2h,3h
-	
-	mon, tue, wed
+		9:30p 2h		
+	wed,thu
 		6:00p-9:00p 2h,3h
 		9:30p 2h
-	thu, fri
+	fri
 		6:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 	sat
 		12:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 		
+	nov 17 2014
+		6:00p-9:00p 2h,3h
+		9:30p 2h
 
+	nov 18 2014
+		6:00p-9:00p 2h,3h
+		9:30p 2h
 
 
 !big party
 	sun
 		12:00p-9:00p 2h,3h
 		9:30p 2h		
-	mon, tue, wed
+	wed,thu
 		6:00p-9:00p 2h,3h
 		9:30p 2h
-	thu, fri
+	fri
 		6:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 	sat
 		12:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 		
+	nov 17 2014
+		6:00p-9:00p 2h,3h
+		9:30p 2h
 
+	nov 18 2014
+		6:00p-9:00p 2h,3h
+		9:30p 2h
+		
 		
 		
 !big premium party	
 	sun
 		12:00p-9:00p 2h,3h
-	mon, tue, wed
+		9:30p 2h		
+	wed,thu
 		2:00p-9:00p 2h,3h
 		9:30p 2h
-	thu, fri
+	fri
 		2:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 	sat
 		12:00p-10:30p 2h,3h
 		11:00p-11:30p 2h
 		
+	nov 17 2014
+		2:00p-9:00p 2h,3h
+		9:30p 2h
 
+	nov 18 2014
+		2:00p-9:00p 2h,3h
+		9:30p 2h
+		
 		
 
 
@@ -166,5 +188,6 @@ Thank you for your request. Our events department will contact you within 48 hou
 !blacklist dates
 #
 # Just dates.
-# dec 3 2014
-	
+#
+#	jul 20 2014
+#	jul 21 2014

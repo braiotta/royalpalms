@@ -188,7 +188,10 @@ function derivePartyType() {
 	party_key = 'regular';
 	
 	//did the user select a premium beverage package?
-	if (which_bev_package.match(/_premium$/)) {
+	if (
+		which_bev_package.match(/_premium$/)
+		|| which_bev_package.match(/_house\-kegged_cocktails$/)
+	) {
 		party_key = 'premium';
 	}
 	
@@ -316,12 +319,14 @@ function handleDateChoice_unavailable(wday) {
 	var which_msg = config['std_msg'];
 	
 	//if the night in question is a league night, give the league night message
-	var wday_name = wdays[wday];
-	for (var i=0; i<config['league'].length; i++) {
-		var this_league_night = config['league'][i];
-		this_league_night = this_league_night.substr(0,3).toLowerCase();
-		if (this_league_night == wday_name) {
-			which_msg = config['league_msg'];
+	if (config['league']) {
+		var wday_name = wdays[wday];
+		for (var i=0; i<config['league'].length; i++) {
+			var this_league_night = config['league'][i];
+			this_league_night = this_league_night.substr(0,3).toLowerCase();
+			if (this_league_night == wday_name) {
+				which_msg = config['league_msg'];
+			}
 		}
 	}
 	
