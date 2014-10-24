@@ -129,16 +129,44 @@ function ajax_submitReservation_deriveSubject($form, $date) {
 	global $SUBJ;
 	$subject = $SUBJ;
 	
-	if (
-		preg_match('/_premium$/', $form['beverage_package'])
-		|| preg_match('/_house\-kegged_cocktails$/', $form['beverage_package'])
-	) {
-		$subject .= ' - PREMIUM';
-	}
-	
+	$subject .= ajax_submitReservation_deriveSubject_partyType($form);
 	$subject .= ' (' . $date . ')';
 	
+	if ($form['referral_code']) {
+		$subject .= ' - REF CODE ' . $form['referral_code'];
+	}
+	
 	return $subject;
+}
+
+function ajax_submitReservation_deriveSubject_partyType($form) {
+	$type_note = $form['beverage_package'];
+
+	switch ($form['beverage_package']) {
+		case 'unlimited_beer_and_wine':
+			$type_note = 'BEER';
+			break;
+		
+		case 'unlimited_beer_wine_and_well':
+			$type_note = 'WELL';
+			break;
+		
+		case 'unlimited_beer_wine_well_and_house-kegged_cocktails':
+			$type_note = 'KEGGED';
+			break;
+		
+		case 'unlimited_beer_wine_and_premium':
+			$type_note = 'PREMIUM';
+			break;
+			
+		default:
+			$type_chunks = explode('_', $form['beverage_package']);
+			$type_tail = strtoupper(array_pop($type_chunks));
+			$type_note = $type_tail;
+			break;
+	}
+	
+	return ' - ' . $type_note;
 }
 
 

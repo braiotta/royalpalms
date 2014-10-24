@@ -21,6 +21,16 @@ var wdays = [
 	'sat'
 ];
 
+var wday_pretty = {
+	'sun'	: 'Sunday',
+	'mon'	: 'Monday',
+	'tue'	: 'Tuesday',
+	'wed'	: 'Wednesday',
+	'thu'	: 'Thursday',
+	'fri'	: 'Friday',
+	'sat'	: 'Saturday'
+};
+
 ( function($) {
 $( document ).ready(function() {
 	//enable the form and the submit button
@@ -32,7 +42,6 @@ $( document ).ready(function() {
 
 	//load the config data from ajax
 	initialize_loadPartyConfig();
-
 
 
 	
@@ -546,6 +555,39 @@ function initialize_loadPartyConfig_cb(return_val) {
 	}
 	
 	config = jQuery.parseJSON( return_val );
+	
+	initialize_updateAvailabilityNote();
+}
+
+function initialize_updateAvailabilityNote() {
+	if (config['league']) {
+		var avail_note = '';
+		
+		if (config['league'].length > 0) {
+			var pretty_wdays = new Array();
+			for (var i=0; i < config['league'].length; i++) {
+				var this_wday = config['league'][i];
+				var pretty_wday = wday_pretty[this_wday] + 's';
+				pretty_wdays[pretty_wdays.length] = pretty_wday;
+			}
+			
+			var delimiter = ' ';
+			if (pretty_wdays.length > 2) {
+				delimiter = ', ';
+			}
+			
+			if (pretty_wdays.length > 1) {
+				var last_day = pretty_wdays.pop();
+				pretty_wdays[pretty_wdays.length] = 'and ' + last_day;
+			}
+			
+			var avail_str = pretty_wdays.join(delimiter);
+			avail_note = '(' + avail_str + ' not available)';
+		}
+		
+		$( '#partydata_date_availability_note' ).html('');
+		$( '#partydata_date_availability_note' ).html(avail_note);
+	}
 }
 
 function popup(popup_name, action) {
