@@ -26,7 +26,7 @@
 	
 !message for too many people
 # use the code "__var__" to have the message plug in whatever number you set above
-	For event requests over __var__ guests<br />please contact <a href="mailto:manager@royalpalmsshuffle.com">manager@royalpalmsshuffle.com</a>.
+	For event requests over __var__ guests<br />please contact <a href="mailto:info@royalpalmschicago.com">info@royalpalmschicago.com</a>.
 
 !how many days in advance can you book
 	60
@@ -47,7 +47,7 @@
 	Sorry! That's a league night. You can't reserve a party on league nights.
 	
 !standard unavailable message
-	Sorry! We can't process your event. Please contact party@royalpalmsshuffle.com
+	Sorry! We can't process your event. Please contact info@royalpalmschicago.com
 
 
 #
@@ -124,7 +124,7 @@
 	Your Royal Palms party reservation request has been received.
 
 !confirmation email from address
-	party@royalpalmsshuffle.com
+	info@royalpalmschicago.com
 
 #
 # email can be html or plain. if html, wrap in <html></html>.

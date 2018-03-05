@@ -132,6 +132,7 @@ function ajax_submitReservation_deriveSubject($form, $date) {
 	$subject = $SUBJ;
 	
 	$subject .= ajax_submitReservation_deriveSubject_partyType($form);
+	$subject .= ' - ' . $form['guests'] . ' - ';
 	$subject .= ' (' . $date . ')';
 	
 	if ($form['referral_code']) {
