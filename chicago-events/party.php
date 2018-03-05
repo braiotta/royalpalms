@@ -9,7 +9,7 @@ Script to interact with event/party request page. Currently two functions:
 --updated July 2014
 */
 
-date_default_timezone_set('US/Eastern');
+date_default_timezone_set('US/Central');
 
 $DATE_FORMAT = 'm/d/Y';
 $DATE_FORMAT = 'M d Y';
@@ -18,7 +18,8 @@ $CONF_PATH = './conf/config.txt';
 $ERRORS_FATAL = true;
 $ERRORS = array();
 $LINE_NOS = array();
-$SUBJ = 'Royal Palms Party Request';
+$LOCATION = 'Chicago';
+$SUBJ = 'Royal Palms ' . $LOCATION . ' Party Request';
 $TIME_SLOT_INCREMENT = 30;
 $TO_ADDR = 'partyrequests@royalpalmsshuffle.com';
 
@@ -95,6 +96,7 @@ function ajax_loadPartyConfig__fromFile($path) {
 function ajax_submitReservation($json) {
 	global $TO_ADDR;
 	global $SUBJ;
+	global $LOCATION;
 
 	$json = $_POST['form_json'];
 	$form = json_decode($json, true);
@@ -114,8 +116,8 @@ function ajax_submitReservation($json) {
 
 	$subject = ajax_submitReservation_deriveSubject($form, $form['date']);
 	
-	logReservation($form);
-	sendReservation($form, $TO_ADDR, $subject);
+	logReservation($form, $LOCATION);
+	sendReservation($form, $TO_ADDR, $subject, $LOCATION);
 	
 	global $CONF_PATH;
 	$raw_conf = ajax_loadPartyConfig__fromFile($CONF_PATH);
@@ -406,7 +408,7 @@ function handleError($msg, $line_str = false) {
 	$ERRORS[] = $msg;
 }
 
-function logReservation($form) {
+function logReservation($form, $location) {
 	$msg[] = 'name: ' . $form['name'];
 	$msg[] = 'guests: ' . $form['guests'];
 	$msg[] = 'beverage package: ' . preg_replace("/_/", ' ', $form['beverage_package']);
@@ -423,7 +425,8 @@ function logReservation($form) {
 	$msg[] = '';
 	$msg[] = 'browser: ' . $_SERVER['HTTP_USER_AGENT'];
 
-	$log_loc = '../../eventlog/eventlog.txt';
+	$lc_city = strtolower($location);
+	$log_loc = '../../eventlog/' . $lc_city . '-eventlog.txt';
 	if (file_exists($log_loc) && is_writable($log_loc)) {
 		file_put_contents(
 			$log_loc,
@@ -858,11 +861,12 @@ function sendConfirmation_deriveHeaders($msg, $from = 'info@RoyalPalmsShuffle.co
 	return $headers;
 }
 
-function sendReservation($form, $to_addr, $subj) {
+function sendReservation($form, $to_addr, $subj, $location) {
 	//build our message and send it
 	$msg = array();
 
 	//a few things in order, then the remainder
+	$msg[] = "*** this is for the " . $location . " location ***";
 	$msg[] = 'name: ' . $form['name'];
 	$msg[] = 'guests: ' . $form['guests'];
 	$msg[] = 'beverage package: ' . preg_replace("/_/", ' ', $form['beverage_package']);
