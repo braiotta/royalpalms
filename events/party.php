@@ -20,7 +20,7 @@ $ERRORS = array();
 $LINE_NOS = array();
 $SUBJ = 'Royal Palms Party Request';
 $TIME_SLOT_INCREMENT = 30;
-$TO_ADDR = 'events@royalpalmsshuffle.com';
+$TO_ADDR = 'partyrequests@royalpalmsshuffle.com';
 
 
 

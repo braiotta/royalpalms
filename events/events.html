@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>The Royal Palms Shuffleboard Club Event Request Form</title>
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+	
+	<link rel="stylesheet" href="/stylesheets/base.css">
+	<link rel="stylesheet" href="/stylesheets/skeleton.css">
+	<link rel="stylesheet" href="/stylesheets/layout.css">
+
+	<link rel="stylesheet" href="./party.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/prototype/1.7.1.0/prototype.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	
+	<script src="./party.js"></script>
+
+</head>
+<body>
+	  
+	
+	<noscript>
+		<h1>You must have javascript turned on to use this form</h1>
+	</noscript>
+
+
+	  <div class="container">
+	    <br />
+	        <div class="twleve columns"><div class="offset-by-fours">
+	
+		
+	<form id='partyform' action='#' onSubmit='return false;' disabled>
+		<div class='party_container'>
+		<h6 class='party_caption'>Your First and Last Name*</h6>
+			<input class='party_text partydata' type='text' id='name' autocomplete='off' />
+			
+		</div>
+	
+		<div class='party_container'>
+		<h6 class='party_caption'>Your Email Address*</h6>
+			<input class='party_text partydata' type='text' id='email' autocomplete='off' />
+			
+		</div>
+	
+		<div class='party_container'>
+					<h6 class='party_caption'>Your Phone Number*</h6>
+			<input class='party_text partydata' type='text' id='phone' autocomplete='off' />
+		</div>
+	
+		<div class='party_container'>
+			<h6 class='party_caption'>Number Of Guests (10+)*</h6>
+			<input class='party_text partydata' type='text' id='guests' autocomplete='off' />
+		</div>
+	
+		<div class='party_container'>
+			<h6 class='party_caption'>Beverage Package*</h6>
+	
+		<p class='party_container'>
+				<input type='radio' id='beverage_package_40' name='beverage_package'
+					value='unlimited_beer_and_wine' class='partydata beverage_package'
+					autocomplete="off">
+				Unlimited beer and wine
+		</p>
+		
+			<p class='party_container'>
+				<input type='radio' id='beverage_package_50' name='beverage_package'
+					value='unlimited_beer_wine_and_well' class='partydata beverage_package'
+					autocomplete="off">
+				Unlimited beer, wine and well spirits
+			</p>
+		
+			<p class='party_container'>
+				<input type='radio' id='beverage_package_30' name='beverage_package'
+					value='unlimited_beer_wine_well_and_house-kegged_cocktails' class='partydata beverage_package'
+					autocomplete="off">
+				Unlimited beer, wine, well spirits, and house-kegged cocktails
+			</p>
+		
+			<p class='party_container'>
+				<input type='radio' id='beverage_package_70' name='beverage_package'
+					value='unlimited_beer_wine_and_premium' class='partydata beverage_package'
+					autocomplete="off">
+				Unlimited beer, wine and premium spirits
+			</p>
+		</div>
+	
+		<!-- hidden/empty at first -->
+		<div class='party_container partydependent' id='partydata_date'>
+		</br>
+		<h6 class='party_caption'>Date <span id='partydata_date_availability_note'></span></h6>
+			<input class='party_text partydata' type='text' id='date' autocomplete='off' />
+			</div>
+	
+		<div class='party_container partydependent' id='partydata_time'>
+		<h6 class='party_caption'>Requested Time</h6>
+			<select id='time' class='partydata'>
+				<option value='null'>select a date above first</option>
+			</select>
+		</div>
+		
+		<div class='party_container partydependent' id='partydata_length'>
+					<h6 class='party_caption'>Event Length</h6>
+			<select id='length' class='partydata'>
+				<option value='2h'>2 hours</option>
+			</select>
+		</div>
+		
+		<div class='party_container referral_container'>
+			<h6 class='party_caption'>If you have a referral code, enter it here</h6>
+			<input class='party_text partydata' type='text' id='referral_code' autocomplete='off' />
+		</div>
+	
+		<input id='submit' type='submit' value='SUBMIT' disabled />
+	</form>
+
+	    </div><!-- container -->
+</div>
+</div>
+
+	<!-- shaded popup during submission -->
+	<a href=# id="shaded_body_block_hide">
+		<div id="shaded_body_block"></div>
+	</a>
+
+	<div id='shaded_popups_container'>
+		<!-- waiting... popup -->
+		<div id='waiting_popup' class='shaded_popup'>
+			<img src="./bar_indicator.gif">
+			<p>
+				working...
+			</p>
+		</div>
+	
+		<div id='overpop_popup' class='shaded_popup'>
+			<p id='overpop_popup_msg'>
+				
+			</p>
+		
+			<p>
+				<input type='submit' id='overpop_popup_ok' value='ok' />
+			</p>
+		</div>
+	</div>
+</body>
+</html>
